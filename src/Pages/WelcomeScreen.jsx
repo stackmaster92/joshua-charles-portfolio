@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Code2, Github, Globe, User } from 'lucide-react';
+import { Code2, Globe, User } from 'lucide-react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -109,7 +109,7 @@ const WelcomeScreen = ({ onLoadingComplete }) => {
                 className="flex justify-center gap-3 sm:gap-4 md:gap-8 mb-6 sm:mb-8 md:mb-12"
                 variants={childVariants}
               >
-                {[Code2, User, Github].map((Icon, index) => (
+                {[Code2, User].map((Icon, index) => (
                   <div key={index} data-aos="fade-down" data-aos-delay={index * 200}>
                     <IconButton Icon={Icon} />
                   </div>
@@ -152,7 +152,7 @@ const WelcomeScreen = ({ onLoadingComplete }) => {
                 data-aos-delay="1200"
               >
                 <a
-                  href="https://www.eki.my.id"
+                  href="https://joshua-charles-portfolio-website.vercel.app"
                   className="inline-flex items-center gap-2 px-4 py-2 sm:px-6 sm:py-3 rounded-full relative group hover:scale-105 transition-transform duration-300"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -161,7 +161,7 @@ const WelcomeScreen = ({ onLoadingComplete }) => {
                   <div className="relative flex items-center gap-2 text-lg sm:text-xl md:text-2xl">
                     <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600" />
                     <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                      <TypewriterEffect text="www.eki.my.id" />
+                      <TypewriterEffect text="joshua-charles-portfolio-website.vercel.app" />
                     </span>
                   </div>
                 </a>

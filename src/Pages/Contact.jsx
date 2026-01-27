@@ -46,17 +46,18 @@ const ContactPage = () => {
 
     try {
       // EmailJS configuration
-      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_jbkuxth';
-      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_blr9zco';
-      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'vcWfV3FZCn7tvxS_V';
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_page3ar';
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_hordn1h';
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '99o0MgHfdJvDvUD_A';
+      
+      // Debug: Log the values being used (remove in production)
+      console.log('EmailJS Config:', { serviceId, templateId, publicKey: publicKey ? '***' : 'missing' });
 
       // Prepare template parameters (match your EmailJS template variables)
       const templateParams = {
-        from_name: formData.name,
-        from_email: formData.email,
+        name: formData.name,
+        email: formData.email,
         message: formData.message,
-        to_email: 'joshua80.charles@gmail.com',
-        reply_to: formData.email,
       };
 
       // Send email using EmailJS
