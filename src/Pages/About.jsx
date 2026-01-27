@@ -548,9 +548,7 @@ const AboutPage = () => {
       company: "Gravitate (Contract)",
       period: "Aug 2024 – Nov 2025",
       images: [
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
-        "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80"
+        "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&q=80",
       ],
       techStack: ["Python", "Apache Airflow", "OpenAI API", "LLM", "ETL Pipelines", "REST APIs", "Docker", "Kubernetes", "AWS", "PostgreSQL", "MongoDB", "Prometheus", "Grafana"],
       achievements: [
@@ -568,8 +566,7 @@ const AboutPage = () => {
       company: "Grant Thornton",
       period: "Aug 2024 – Mar 2025",
       images: [
-        "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80",
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80"
+        "https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&q=80",
       ],
       techStack: ["Azure", "Terraform", "GitHub Actions", "Azure DevOps", "Docker", "Kubernetes", "Helm", "Prometheus", "Grafana"],
       achievements: [
@@ -586,8 +583,7 @@ const AboutPage = () => {
       company: "Prosa.ai",
       period: "Sep 2023 – Dec 2024",
       images: [
-        "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80",
-        "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80"
+        "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&q=80",
       ],
       techStack: ["FastAPI", "Python", "React", "TypeScript", "Docker", "Kubernetes", "Helm", "AWS", "OpenAI", "LLM", "PostgreSQL", "MongoDB", "Redis", "Terraform"],
       achievements: [
@@ -603,8 +599,7 @@ const AboutPage = () => {
       company: "CIBC",
       period: "Jul 2022 – May 2024",
       images: [
-        "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80",
-        "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80"
+        "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=400&q=80",
       ],
       techStack: ["AWS", "Azure", "GCP", "Jenkins", "GitLab CI", "Docker", "Kubernetes", "Terraform", "Ansible", "MLOps", "Prometheus", "Grafana", "ELK Stack"],
       achievements: [
@@ -622,8 +617,7 @@ const AboutPage = () => {
       company: "Loblaws Canada",
       period: "Jun 2021 – Jul 2022",
       images: [
-        "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80",
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80"
+        "https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&q=80",
       ],
       techStack: ["Kubernetes", "OpenShift", "Docker", "Helm", "Jenkins", "GitLab CI", "Prometheus", "Grafana", "MLOps", "Python", "Terraform", "Ansible"],
       achievements: [
@@ -641,8 +635,7 @@ const AboutPage = () => {
       company: "DevX Innovations",
       period: "Apr 2020 – Aug 2022",
       images: [
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
-        "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80"
+        "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&q=80",
       ],
       techStack: ["Python", "Django", "React", "JavaScript", "PostgreSQL", "Redis", "Docker", "AWS", "Nginx", "Gunicorn", "REST APIs"],
       achievements: [
@@ -660,8 +653,7 @@ const AboutPage = () => {
       company: "FinTech Solutions Ltd.",
       period: "Apr 2019 – Jan 2020",
       images: [
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
-        "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80"
+        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&q=80",
       ],
       techStack: ["Node.js", "Python", "React", "Apache Kafka", "Redis", "PostgreSQL", "Docker", "AWS", "REST APIs", "WebSocket"],
       achievements: [
@@ -679,8 +671,7 @@ const AboutPage = () => {
       company: "CloudTech Systems",
       period: "Mar 2017 – Jan 2019",
       images: [
-        "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80",
-        "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80"
+        "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&q=80",
       ],
       techStack: ["PHP", "Laravel", "MySQL", "Redis", "REST APIs", "Docker", "Nginx", "AWS"],
       achievements: [
@@ -697,8 +688,7 @@ const AboutPage = () => {
       company: "Digital Innovations",
       period: "Aug 2015 – Jan 2017",
       images: [
-        "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80",
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80"
+        "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&q=80",
       ],
       techStack: ["JavaScript", "React", "HTML5", "CSS3", "Webpack", "Babel"],
       achievements: [
