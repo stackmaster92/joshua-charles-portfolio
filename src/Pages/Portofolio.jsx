@@ -1,6 +1,4 @@
 import React, { useEffect, useState, useCallback } from "react";
-
-import { supabase } from "../supabase";
 import { projects as staticProjects } from "../data/projects"; 
 
 import PropTypes from "prop-types";
@@ -153,57 +151,24 @@ export default function FullWidthTabs() {
   }, []);
 
 
-  const fetchData = useCallback(async () => {
-    // Check if Supabase is available
-    if (!supabase) {
-      console.warn("Supabase is not configured. Using cached data from localStorage if available.");
-      return;
-    }
-
-    try {
-      // Mengambil data dari Supabase secara paralel
-      const [projectsResponse, certificatesResponse] = await Promise.all([
-        supabase.from("projects").select("*").order('id', { ascending: true }),
-        supabase.from("certificates").select("*").order('id', { ascending: true }), 
-      ]);
-
-      // Error handling untuk setiap request
-      if (projectsResponse.error) throw projectsResponse.error;
-      if (certificatesResponse.error) throw certificatesResponse.error;
-
-      // Supabase mengembalikan data dalam properti 'data'
-      const projectData = projectsResponse.data || [];
-      const certificateData = certificatesResponse.data || [];
-
-      setProjects(projectData);
-      setCertificates(certificateData);
-
-      // Store in localStorage (fungsionalitas ini tetap dipertahankan)
-      localStorage.setItem("projects", JSON.stringify(projectData));
-      localStorage.setItem("certificates", JSON.stringify(certificateData));
-    } catch (error) {
-      console.error("Error fetching data from Supabase:", error.message);
-    }
-  }, []);
+  // Using static projects data - Supabase removed
 
 
 
   useEffect(() => {
-    // Coba ambil dari localStorage dulu untuk laod lebih cepat
+    // Try to load from localStorage first for faster load
     const cachedProjects = localStorage.getItem('projects');
     const cachedCertificates = localStorage.getItem('certificates');
 
     if (cachedProjects && cachedCertificates) {
         setProjects(JSON.parse(cachedProjects));
         setCertificates(JSON.parse(cachedCertificates));
-    } else if (!supabase) {
-        // If Supabase is not available and no cached data, use static projects
+    } else {
+        // Use static projects if no cached data
         setProjects(staticProjects);
         localStorage.setItem("projects", JSON.stringify(staticProjects));
     }
-    
-    fetchData(); // Tetap panggil fetchData untuk sinkronisasi data terbaru
-  }, [fetchData]);
+  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

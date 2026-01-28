@@ -344,7 +344,7 @@ const ProjectDetails = () => {
         ...selectedProject,
         Features: extractedFeatures,
         TechStack: extractedTechStack,
-        Github: selectedProject.Github || 'https://github.com/EkiZR',
+        Github: selectedProject.Github || 'https://github.com/Joshua80',
       };
       setProject(enhancedProject);
     }

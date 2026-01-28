@@ -80,7 +80,7 @@ const PAUSE_DURATION = 2000;
 const WORDS = ["AI/ML Engineer", "Backend Systems Architect", "Cloud Platform Engineer"];
 const TECH_STACK = ["Python", "Node.js", "AWS", "Azure", "GCP", "Kubernetes"];
 const SOCIAL_LINKS = [
-  { icon: Github, link: "https://github.com" },
+  { icon: Github, link: "https://github.com/Joshua80" },
   { icon: Linkedin, link: "https://www.linkedin.com/in/joshua-charles-63010229/" },
   { icon: Mail, link: "#Contact" }
 ];

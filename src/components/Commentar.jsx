@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
 import { MessageCircle, UserCircle2, Loader2, AlertCircle, Send, ImagePlus, X, Pin } from 'lucide-react';
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { supabase } from '../supabase';
 
 
 const Comment = memo(({ comment, formatDate, index, isPinned = false }) => (
@@ -238,141 +237,7 @@ const Komentar = () => {
         });
     }, []);
 
-    // Fetch pinned comment
-    useEffect(() => {
-        const fetchPinnedComment = async () => {
-            if (!supabase) {
-                console.warn("Supabase is not configured. Comments feature is disabled.");
-                return;
-            }
-
-            try {
-                const { data, error } = await supabase
-                    .from('portfolio_comments')
-                    .select('*')
-                    .eq('is_pinned', true)
-                    .single();
-                
-                if (error && error.code !== 'PGRST116') {
-                    console.error('Error fetching pinned comment:', error);
-                    return;
-                }
-                
-                if (data) {
-                    setPinnedComment(data);
-                }
-            } catch (error) {
-                console.error('Error fetching pinned comment:', error);
-            }
-        };
-
-        fetchPinnedComment();
-    }, []);
-
-    // Fetch regular comments (excluding pinned) and set up real-time subscription
-    useEffect(() => {
-        if (!supabase) {
-            console.warn("Supabase is not configured. Comments feature is disabled.");
-            return;
-        }
-
-        const fetchComments = async () => {
-            const { data, error } = await supabase
-                .from('portfolio_comments')
-                .select('*')
-                .eq('is_pinned', false)
-                .order('created_at', { ascending: false });
-            
-            if (error) {
-                console.error('Error fetching comments:', error);
-                return;
-            }
-            
-            setComments(data || []);
-        };
-
-        fetchComments();
-
-        // Set up real-time subscription
-        const subscription = supabase
-            .channel('portfolio_comments')
-            .on('postgres_changes', 
-                { 
-                    event: '*', 
-                    schema: 'public', 
-                    table: 'portfolio_comments',
-                    filter: 'is_pinned=eq.false'
-                }, 
-                () => {
-                    fetchComments(); // Refresh comments when changes occur
-                }
-            )
-            .subscribe();
-
-        return () => {
-            subscription.unsubscribe();
-        };
-    }, []);
-
-    const uploadImage = useCallback(async (imageFile) => {
-        if (!imageFile) return null;
-        if (!supabase) {
-            throw new Error("Supabase is not configured. Cannot upload images.");
-        }
-        
-        const fileExt = imageFile.name.split('.').pop();
-        const fileName = `${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
-        const filePath = `profile-images/${fileName}`;
-
-        const { error: uploadError } = await supabase.storage
-            .from('profile-images')
-            .upload(filePath, imageFile);
-
-        if (uploadError) {
-            throw uploadError;
-        }
-
-        const { data } = supabase.storage
-            .from('profile-images')
-            .getPublicUrl(filePath);
-
-        return data.publicUrl;
-    }, []);
-
-    const handleCommentSubmit = useCallback(async ({ newComment, userName, imageFile }) => {
-        if (!supabase) {
-            setError('Comments feature is not available. Supabase is not configured.');
-            return;
-        }
-
-        setError('');
-        setIsSubmitting(true);
-        
-        try {
-            const profileImageUrl = await uploadImage(imageFile);
-            
-            const { error } = await supabase
-                .from('portfolio_comments')
-                .insert([
-                    {
-                        content: newComment,
-                        user_name: userName,
-                        profile_image: profileImageUrl,
-                        is_pinned: false,
-                        created_at: new Date().toISOString()
-                    }
-                ]);
-
-            if (error) {
-                throw error;
-            }
-        } catch (error) {
-            setError('Failed to post comment. Please try again.');
-            console.error('Error adding comment: ', error);
-        } finally {
-            setIsSubmitting(false);
-        }
-    }, [uploadImage]);
+    // Comments feature requires Supabase - component will not render without it
 
     const formatDate = useCallback((timestamp) => {
         if (!timestamp) return '';
@@ -473,12 +338,9 @@ const Komentar = () => {
     );
 };
 
-// Wrapper component that handles Supabase availability check
+// Comments feature requires Supabase - component disabled
 const KomentarWrapper = () => {
-    if (!supabase) {
-        return null;
-    }
-    return <Komentar />;
+    return null;
 };
 
 export default KomentarWrapper;

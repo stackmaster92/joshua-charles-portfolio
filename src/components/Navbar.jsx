@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Star } from "lucide-react";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -12,6 +12,19 @@ const Navbar = () => {
         { href: "#Portofolio", label: "Portofolio" },
         { href: "#Contact", label: "Contact" },
     ];
+    
+    const scrollToAppointment = (e) => {
+        e.preventDefault();
+        const section = document.querySelector("#Appointment");
+        if (section) {
+            const top = section.offsetTop - 100;
+            window.scrollTo({
+                top: top,
+                behavior: "smooth"
+            });
+        }
+        setIsOpen(false);
+    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -82,15 +95,27 @@ const Navbar = () => {
                         <a
                             href="#Home"
                             onClick={(e) => scrollToSection(e, "#Home")}
-                            className="text-xl font-bold bg-gradient-to-r from-[#a855f7] to-[#6366f1] bg-clip-text text-transparent"
+                            className="relative inline-block group"
                         >
-                            Joshua Charles
+                            <span className="text-2xl font-bold bg-gradient-to-r from-[#a855f7] via-[#6366f1] to-[#a855f7] bg-clip-text text-transparent animate-gradient">
+                                JC
+                            </span>
+                            {/* Top-right star */}
+                            <Star 
+                                className="absolute -top-1 -right-1 w-3 h-3 fill-[#a855f7] text-[#6366f1] opacity-70 group-hover:opacity-100 transition-all duration-300 animate-star-twinkle"
+                                style={{ animationDelay: '0s' }}
+                            />
+                            {/* Bottom-left star */}
+                            <Star 
+                                className="absolute -bottom-1 -left-1 w-2.5 h-2.5 fill-[#6366f1] text-[#a855f7] opacity-70 group-hover:opacity-100 transition-all duration-300 animate-star-twinkle"
+                                style={{ animationDelay: '1s' }}
+                            />
                         </a>
                     </div>
         
                     {/* Desktop Navigation */}
                     <div className="hidden md:block">
-                        <div className="ml-8 flex items-center space-x-8">
+                        <div className="ml-8 flex items-center space-x-6">
                             {navItems.map((item) => (
                                 <a
                                     key={item.label}
@@ -116,6 +141,15 @@ const Navbar = () => {
                                     />
                                 </a>
                             ))}
+                            {/* Book Appointment Button */}
+                            <a
+                                href="#Appointment"
+                                onClick={scrollToAppointment}
+                                className="relative px-4 py-2 text-sm font-semibold bg-gradient-to-r from-[#6366f1] to-[#a855f7] text-white rounded-lg shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:scale-105 active:scale-95 transition-all duration-300"
+                            >
+                                <span className="relative z-10">Book Appointment</span>
+                                <span className="absolute inset-0 bg-gradient-to-r from-[#a855f7] to-[#6366f1] rounded-lg opacity-0 hover:opacity-100 transition-opacity duration-300"></span>
+                            </a>
                         </div>
                     </div>
         
@@ -165,6 +199,19 @@ const Navbar = () => {
                             {item.label}
                         </a>
                     ))}
+                    {/* Book Appointment Button - Mobile */}
+                    <a
+                        href="#Appointment"
+                        onClick={scrollToAppointment}
+                        className="block px-4 py-3 text-lg font-semibold bg-gradient-to-r from-[#6366f1] to-[#a855f7] text-white rounded-lg shadow-lg shadow-indigo-500/30 text-center hover:shadow-indigo-500/50 transition-all duration-300"
+                        style={{
+                            transitionDelay: `${navItems.length * 100}ms`,
+                            transform: isOpen ? "translateX(0)" : "translateX(50px)",
+                            opacity: isOpen ? 1 : 0,
+                        }}
+                    >
+                        Book Appointment
+                    </a>
                 </div>
             </div>
         </nav>

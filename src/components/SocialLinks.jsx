@@ -3,6 +3,7 @@ import {
   Linkedin,
   MessageCircle,
   ExternalLink,
+  Github,
 } from "lucide-react";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -54,12 +55,21 @@ const socialLinks = [
     color: "#0088cc",
     gradient: "from-[#0088cc] to-[#229ED9]",
   },
+  {
+    name: "GitHub",
+    displayName: "GitHub",
+    subText: "View my code",
+    icon: Github,
+    url: "https://github.com/Joshua80",
+    color: "#ffffff",
+    gradient: "from-[#333333] to-[#24292e]",
+  },
 ];
 
 const SocialLinks = () => {
   const linkedIn = socialLinks.find((link) => link.isPrimary);
   const otherLinks = socialLinks.filter((link) => !link.isPrimary);
-  const [whatsapp, telegram] = otherLinks;
+  const [whatsapp, telegram, github] = otherLinks;
 
   useEffect(() => {
     AOS.init({
@@ -140,9 +150,9 @@ const SocialLinks = () => {
           </div>
         </a>
 
-        {/* Second Row - WhatsApp & Telegram */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {[whatsapp, telegram].map((link, index) => (
+        {/* Second Row - WhatsApp, Telegram & GitHub */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[whatsapp, telegram, github].map((link, index) => (
             <a
               key={link.name}
               href={link.url}

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Share2, User, Mail, MessageSquare, Send } from "lucide-react";
-import { Link } from "react-router-dom";
 import SocialLinks from "../components/SocialLinks";
-import Komentar from "../components/Commentar";
-import { supabase } from "../supabase";
+import AppointmentScheduler from "../components/AppointmentScheduler";
 import Swal from "sweetalert2";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -49,9 +47,6 @@ const ContactPage = () => {
       const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_page3ar';
       const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_hordn1h';
       const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '99o0MgHfdJvDvUD_A';
-      
-      // Debug: Log the values being used (remove in production)
-      console.log('EmailJS Config:', { serviceId, templateId, publicKey: publicKey ? '***' : 'missing' });
 
       // Prepare template parameters (match your EmailJS template variables)
       const templateParams = {
@@ -79,7 +74,6 @@ const ContactPage = () => {
       });
 
     } catch (error) {
-      console.error('EmailJS Error:', error);
       let errorMessage = 'An error occurred. Please try again later.';
       
       if (error.text) {
@@ -127,9 +121,7 @@ const ContactPage = () => {
       >
         <div className="container px-[1%] grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form Part */}
-          <div
-            className="bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl p-5 py-10 sm:p-10 transform transition-all duration-500 hover:shadow-[#6366f1]/10"
-          >
+          <div className="bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl p-5 py-10 sm:p-10 transform transition-all duration-500 hover:shadow-[#6366f1]/10">
             <div className="flex justify-between items-start mb-8">
               <div>
                 <h2 className="text-4xl font-bold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#a855f7]">
@@ -213,6 +205,25 @@ const ContactPage = () => {
           <div className="bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl p-5 py-10 sm:p-10 transform transition-all duration-500 hover:shadow-[#6366f1]/10">
             <SocialLinks />
           </div>
+        </div>
+      </div>
+
+      {/* Appointment section */}
+      <div className="pb-16 2xl:pr-[3.1%] lg:pr-[3.8%] md:px-0">
+        <div className="container px-[1%]">
+          <div className="text-left mb-6 sm:px-0 px-[5%]">
+            <h2
+              data-aos="fade-down"
+              data-aos-duration="1000"
+              className="text-xl md:text-2xl font-bold flex items-center gap-2 w-full"
+            >
+              <span className="text-[#a78bfa]">04.</span>
+              <span className="text-[#a855f7]">Book an Appointment</span>
+              <span className="h-[1px] flex-1 bg-gradient-to-r from-[#a855f7]/60 to-transparent ml-2"></span>
+            </h2>
+          </div>
+
+          <AppointmentScheduler />
         </div>
       </div>
     </div>

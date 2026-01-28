@@ -316,7 +316,7 @@ const ExperienceDetailCard = memo(({ experience, position }) => {
   return (
     <div 
       className="w-[700px] max-w-[90vw] bg-[#030014] backdrop-blur-xl rounded-xl border border-white/30 shadow-2xl p-6 animate-card-enter"
-      style={{
+            style={{
         position: 'fixed',
         top: position?.top || '50%',
         left: position?.left || 'auto',
@@ -334,8 +334,8 @@ const ExperienceDetailCard = memo(({ experience, position }) => {
         <div className="flex items-start justify-between gap-4 mb-3">
           <div className="flex-1">
             <h3 className="text-xl font-bold text-white mb-2">
-              {experience.title}
-            </h3>
+                {experience.title}
+              </h3>
             <div className="flex items-center gap-2">
               <Building2 className="w-4 h-4 text-[#a855f7]/60" />
               <p className="text-sm font-semibold text-gray-300">
@@ -347,48 +347,48 @@ const ExperienceDetailCard = memo(({ experience, position }) => {
             <Calendar className="w-3.5 h-3.5 text-[#a855f7]" />
             <span className="text-xs font-semibold text-[#a855f7] whitespace-nowrap">{experience.period}</span>
           </div>
-        </div>
-      </div>
+            </div>
+          </div>
 
       {/* Achievements Section */}
       <div className="mb-4">
         <div className="flex items-center gap-2 mb-3">
           <TrendingUp className="w-4 h-4 text-[#a855f7]" />
-          <h4 className="text-xs font-semibold text-gray-200 uppercase tracking-wide">Key Achievements</h4>
-        </div>
+              <h4 className="text-xs font-semibold text-gray-200 uppercase tracking-wide">Key Achievements</h4>
+            </div>
         <ul className="space-y-2.5 max-h-[300px] overflow-y-auto custom-scrollbar">
-          {experience.achievements.map((achievement, idx) => (
-            <li key={idx} className="flex items-start gap-2.5 group/item p-2 rounded-lg hover:bg-white/5 transition-colors duration-200">
-              <div className="flex-shrink-0 mt-0.5">
+              {experience.achievements.map((achievement, idx) => (
+                <li key={idx} className="flex items-start gap-2.5 group/item p-2 rounded-lg hover:bg-white/5 transition-colors duration-200">
+                  <div className="flex-shrink-0 mt-0.5">
                 <CheckCircle2 className="w-4 h-4 text-[#a855f7] group-hover/item:text-[#a855f7] transition-colors duration-200" />
-              </div>
+                  </div>
               <p className="text-sm text-gray-300 leading-relaxed flex-1 group-hover/item:text-white transition-colors duration-200">
-                {achievement}
-              </p>
-            </li>
-          ))}
-        </ul>
-      </div>
+                    {achievement}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
 
       {/* Tech Stack Section */}
-      {experience.techStack && experience.techStack.length > 0 && (
+          {experience.techStack && experience.techStack.length > 0 && (
         <div className="pt-4 border-t border-white/10">
-          <div className="flex items-center gap-2 mb-3">
+              <div className="flex items-center gap-2 mb-3">
             <Code className="w-4 h-4 text-[#a855f7]" />
-            <h4 className="text-xs font-semibold text-gray-200 uppercase tracking-wide">Tech Stack</h4>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {experience.techStack.map((tech, idx) => (
-              <span
-                key={idx}
+                <h4 className="text-xs font-semibold text-gray-200 uppercase tracking-wide">Tech Stack</h4>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {experience.techStack.map((tech, idx) => (
+                  <span
+                    key={idx}
                 className="px-2.5 py-1 rounded-md bg-[#a855f7]/20 border border-[#a855f7]/30 text-xs text-[#a855f7] font-medium backdrop-blur-sm"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
     </div>
   );
 });
@@ -478,9 +478,9 @@ const TimelineItem = memo(({ experience, index, onMouseEnter, onMouseLeave, isLa
           )}
           {/* Overlay gradient */}
           <div className="absolute inset-0 bg-gradient-to-br from-[#a855f7]/10 to-transparent"></div>
-        </div>
-      </div>
-
+            </div>
+          </div>
+          
       {/* Card - Alternating left/right */}
       <div className={`w-[calc(50%-5rem+50px)] ${isEven ? 'mr-auto pr-10' : 'ml-auto pl-10'}`}>
         <button
@@ -495,15 +495,15 @@ const TimelineItem = memo(({ experience, index, onMouseEnter, onMouseLeave, isLa
             <div className="space-y-1.5">
               {/* Title */}
               <h4 className="text-base font-bold text-white leading-tight group-hover:text-[#a855f7] transition-colors duration-300">
-                {experience.title}
-              </h4>
+              {experience.title}
+            </h4>
               
               {/* Company and Working Period - Same row */}
               <div className="flex items-center justify-between gap-3 flex-wrap">
                 <div className="flex items-center gap-2">
                   <Building2 className="w-3.5 h-3.5 text-[#a855f7]/60" />
                   <p className="text-xs font-semibold text-gray-300">
-                    {experience.company}
+                {experience.company}
                   </p>
                 </div>
                 <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium ${
@@ -513,11 +513,11 @@ const TimelineItem = memo(({ experience, index, onMouseEnter, onMouseLeave, isLa
                 }`}>
                   <Calendar className="w-3 h-3" />
                   <span>{experience.period}</span>
-                </div>
               </div>
             </div>
           </div>
-        </button>
+        </div>
+      </button>
       </div>
     </div>
   );
@@ -918,9 +918,9 @@ const AboutPage = () => {
                   const isEven = index % 2 === 0;
                   return (
                     <div key={index} ref={cardRefs.current[index]}>
-                      <TimelineItem
-                        experience={exp}
-                        index={index}
+                    <TimelineItem
+                      experience={exp}
+                      index={index}
                         onMouseEnter={() => {
                           // Clear any pending hide timeout
                           if (hideCardTimeoutRef.current) {
@@ -969,15 +969,15 @@ const AboutPage = () => {
                             hideCardTimeoutRef.current = null;
                           }, 500);
                         }}
-                        isLast={index === experiences.length - 1}
-                      />
+                      isLast={index === experiences.length - 1}
+                    />
                     </div>
                   );
                 })}
+                </div>
               </div>
             </div>
-          </div>
-
+            
           {/* Experience Details Card - Shows on hover */}
           {isModalOpen && (
             <div
@@ -1001,7 +1001,7 @@ const AboutPage = () => {
                 experience={experiences[selectedExperienceIndex]} 
                 position={modalPosition}
               />
-            </div>
+              </div>
           )}
 
           {/* Education & Certifications Section */}
@@ -1016,9 +1016,9 @@ const AboutPage = () => {
               </div>
               <h3 
                 className="text-[32px] sm:text-[44px] font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#a855f7] tracking-tight"
-              >
-                Education & Certifications
-              </h3>
+            >
+              Education & Certifications
+            </h3>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

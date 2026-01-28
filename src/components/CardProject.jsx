@@ -3,10 +3,8 @@ import { Link } from 'react-router-dom';
 import { ExternalLink, ArrowRight } from 'lucide-react';
 
 const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
-  // Handle kasus ketika ProjectLink kosong
   const handleLiveDemo = (e) => {
     if (!ProjectLink) {
-      console.log("ProjectLink kosong");
       e.preventDefault();
       alert("Live demo link is not available");
     }
@@ -14,7 +12,6 @@ const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
   
   const handleDetails = (e) => {
     if (!id) {
-      console.log("ID kosong");
       e.preventDefault();
       alert("Project details are not available");
     }
