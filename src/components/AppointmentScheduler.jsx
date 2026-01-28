@@ -80,29 +80,49 @@ const AppointmentScheduler = () => {
     return bookedSlots.includes(slotKey);
   };
 
-  // Save a booked slot and send email notification to prevent duplicates
+  // Save a booked slot and send email notifications to both organizer and client
   const saveBookedSlot = async (date, time) => {
     const slotKey = getSlotKey(date, time);
     const updated = [...bookedSlots, slotKey];
     setBookedSlots(updated);
     localStorage.setItem("bookedAppointments", JSON.stringify(updated));
 
-    // Send email notification to you about the new booking
-    // This helps you track bookings and manually prevent duplicates if needed
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_page3ar';
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_hordn1h';
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '99o0MgHfdJvDvUD_A';
+    const organizerEmail = "joshua80.charles@gmail.com";
+
+    const formattedDate = date.toLocaleDateString("en-US", {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+
+    // Send confirmation email to organizer (Joshua)
     try {
-      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_page3ar';
-      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_hordn1h';
-      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '99o0MgHfdJvDvUD_A';
-
-      const templateParams = {
+      const organizerParams = {
         name: 'Joshua Charles',
-        email: import.meta.env.VITE_YOUR_EMAIL || details.email, // Your email to receive notifications
-        message: `New Appointment Booking:\n\nClient: ${details.fullName}\nEmail: ${details.email}\nPhone: ${details.phone || 'N/A'}\nDate: ${date.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}\nTime: ${time}\n\nMessage:\n${details.message || 'No message provided'}`,
+        email: organizerEmail,
+        to_email: organizerEmail,
+        message: `New Appointment Booking Notification:\n\nClient Details:\n- Name: ${details.fullName}\n- Email: ${details.email}\n- Phone: ${details.phone || 'N/A'}\n\nAppointment Details:\n- Date: ${formattedDate}\n- Time: ${time}\n- Duration: 30 minutes\n- Timezone: ${timezoneLabel}\n\nClient Message:\n${details.message || 'No message provided'}\n\nPlease add this appointment to your calendar.`,
       };
-
-      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      await emailjs.send(serviceId, templateId, organizerParams, publicKey);
     } catch (error) {
-      // Email notification failed, but booking is still saved to localStorage
+      console.error('Failed to send email to organizer:', error);
+    }
+
+    // Send confirmation email to client
+    try {
+      const clientParams = {
+        name: details.fullName,
+        email: details.email,
+        to_email: details.email,
+        message: `Appointment Confirmation\n\nDear ${details.fullName},\n\nYour appointment has been successfully scheduled!\n\nAppointment Details:\n- Date: ${formattedDate}\n- Time: ${time}\n- Duration: 30 minutes\n- Timezone: ${timezoneLabel}\n- Location: ${MEETING_LOCATION}\n\nOrganizer: Joshua Charles\nEmail: ${organizerEmail}\n\nPlease add this appointment to your calendar using the button provided.\n\nWe look forward to meeting with you!\n\nBest regards,\nJoshua Charles`,
+      };
+      await emailjs.send(serviceId, templateId, clientParams, publicKey);
+    } catch (error) {
+      console.error('Failed to send email to client:', error);
     }
   };
 
@@ -222,28 +242,44 @@ const AppointmentScheduler = () => {
     const endStr = formatGoogleDate(endDate);
 
     // Build Google Calendar URL
-    const eventTitle = encodeURIComponent("Appointment with Joshua Charles");
+    const clientName = details.fullName || "Client";
+    const eventTitle = encodeURIComponent(`Appointment: ${clientName} with Joshua Charles`);
+    const organizerEmail = "joshua80.charles@gmail.com";
+    const organizerName = "Joshua Charles";
+    
     const eventDetails = encodeURIComponent(
-      `30-minute strategy & architecture review session.` +
-        `\n\nClient: ${details.fullName}` +
-        `\nEmail: ${details.email}` +
-        `\nPhone: ${details.phone || "N/A"}` +
-        `\n\nMessage:\n${details.message || "-"}\n\n` +
-        `Selected time: ${selectedTime} on ${selectedDate.toLocaleDateString(
-          "en-US",
-          {
-            weekday: "long",
-            month: "long",
-            day: "numeric",
-            year: "numeric",
-          }
-        )} (${timezoneLabel})`
+      `30-minute strategy & architecture review session.\n\n` +
+      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+      `ORGANIZER:\n` +
+      `${organizerName}\n` +
+      `Email: ${organizerEmail}\n\n` +
+      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+      `CLIENT DETAILS:\n` +
+      `Name: ${details.fullName}\n` +
+      `Email: ${details.email}\n` +
+      `Phone: ${details.phone || "N/A"}\n\n` +
+      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+      `APPOINTMENT DETAILS:\n` +
+      `Date: ${selectedDate.toLocaleDateString("en-US", {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      })}\n` +
+      `Time: ${selectedTime}\n` +
+      `Duration: 30 minutes\n` +
+      `Timezone: ${timezoneLabel}\n` +
+      `Location: ${MEETING_LOCATION}\n\n` +
+      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+      `CLIENT MESSAGE:\n${details.message || "No message provided"}`
     );
     const eventLocation = encodeURIComponent(MEETING_LOCATION);
     
-    // Add guest email if provided
-    const guestEmail = details.email ? encodeURIComponent(details.email) : "";
-    const addParam = guestEmail ? `&add=${guestEmail}` : "";
+    // Always include organizer email and client email as attendees
+    const clientEmail = details.email ? encodeURIComponent(details.email) : "";
+    const organizerParam = `&add=${encodeURIComponent(organizerEmail)}`;
+    const clientParam = clientEmail ? `&add=${clientEmail}` : "";
+    const addParam = `${organizerParam}${clientParam}`;
 
     return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${eventTitle}&dates=${startStr}/${endStr}&details=${eventDetails}&location=${eventLocation}${addParam}`;
   };

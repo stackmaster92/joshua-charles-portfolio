@@ -1056,6 +1056,7 @@ const AboutPage = () => {
                 </h4>
                 <div className="space-y-2 text-sm">
                   <p className="text-gray-300">PMP®</p>
+                  <p className="text-gray-300">ITIL® Foundation</p>
                   <p className="text-gray-300">AWS Certified Solutions Architect – Associate</p>
                   <p className="text-gray-300">Microsoft Azure Administrator & Solutions Architect Expert</p>
                   <p className="text-gray-300">CompTIA Security+, Cloud+, PenTest+</p>
