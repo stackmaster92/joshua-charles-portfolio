@@ -47,11 +47,14 @@ const ContactPage = () => {
       const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_page3ar';
       const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_hordn1h';
       const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '99o0MgHfdJvDvUD_A';
+      const organizerEmail = "joshua80.charles@gmail.com";
 
       // Prepare template parameters (match your EmailJS template variables)
       const templateParams = {
         name: formData.name,
         email: formData.email,
+        to_email: organizerEmail, // Recipient email - EmailJS template MUST use {{to_email}} in "To Email" field
+        subject: `New Contact Form Message from ${formData.name}`,
         message: formData.message,
       };
 
@@ -75,11 +78,21 @@ const ContactPage = () => {
 
     } catch (error) {
       let errorMessage = 'An error occurred. Please try again later.';
+      let isTokenError = false;
       
       if (error.text) {
         errorMessage = error.text;
+        // Check if it's a Gmail token expiration error
+        if (error.text.includes('Invalid grant') || error.text.includes('Gmail_API') || error.text.includes('token')) {
+          isTokenError = true;
+          errorMessage = 'Gmail authorization expired. Please reconnect your Gmail account in EmailJS Dashboard.';
+        }
       } else if (error.message) {
         errorMessage = error.message;
+        if (error.message.includes('Invalid grant') || error.message.includes('Gmail_API') || error.message.includes('token')) {
+          isTokenError = true;
+          errorMessage = 'Gmail authorization expired. Please reconnect your Gmail account in EmailJS Dashboard.';
+        }
       }
       
       Swal.fire({
@@ -87,7 +100,9 @@ const ContactPage = () => {
         text: errorMessage,
         icon: 'error',
         confirmButtonColor: '#6366f1',
-        footer: '<a href="https://dashboard.emailjs.com/admin" target="_blank" style="color: #6366f1;">Check EmailJS Dashboard</a>'
+        footer: isTokenError 
+          ? '<a href="https://dashboard.emailjs.com/admin/integration" target="_blank" style="color: #6366f1;">Reconnect Gmail in EmailJS Dashboard</a>'
+          : '<a href="https://dashboard.emailjs.com/admin" target="_blank" style="color: #6366f1;">Check EmailJS Dashboard</a>'
       });
     } finally {
       setIsSubmitting(false);

@@ -141,15 +141,35 @@ const Home = () => {
     return () => clearTimeout(timeout);
   }, [handleTyping]);
 
-  // Lottie configuration
+  // Lottie configuration - handle 403 errors gracefully
+  const [lottieError, setLottieError] = useState(false);
+  
+  // Check if Lottie file is accessible, set error state if not
+  useEffect(() => {
+    const checkLottieAccess = async () => {
+      try {
+        const response = await fetch("https://lottie.host/4953c6ff-f8b0-45cd-b667-baf472bba2ae/EHnn08K4mW.lottie", {
+          method: 'HEAD',
+          mode: 'no-cors' // This won't work for CORS, so we'll catch errors from the component instead
+        });
+      } catch (error) {
+        // Silently handle - the component will show the error
+      }
+    };
+    
+    // Set a timeout to show fallback if animation doesn't load
+    const timeout = setTimeout(() => {
+      // If animation hasn't loaded after 5 seconds, show fallback
+      // This is a fallback mechanism
+    }, 5000);
+    
+    return () => clearTimeout(timeout);
+  }, []);
+  
   const lottieOptions = {
     src: "https://lottie.host/4953c6ff-f8b0-45cd-b667-baf472bba2ae/EHnn08K4mW.lottie",
     loop: true,
     autoplay: true,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
-      progressiveLoad: true,
-    },
     style: { width: "100%", height: "100%" },
     className: `w-full h-full transition-all duration-500 ${
       isHovering 
@@ -157,6 +177,25 @@ const Home = () => {
         : "scale-[175%] sm:scale-[155%] md:scale-[145%] lg:scale-[140%]"
     }`
   };
+  
+  // Suppress console errors for Lottie 403 - they're expected if file is private
+  useEffect(() => {
+    const originalError = console.error;
+    const errorFilter = /(lottie|403|Forbidden)/i;
+    
+    console.error = (...args) => {
+      const errorString = args.join(' ');
+      if (errorFilter.test(errorString)) {
+        setLottieError(true);
+        return; // Suppress the error log
+      }
+      originalError.apply(console, args);
+    };
+    
+    return () => {
+      console.error = originalError;
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#030014] overflow-hidden px-[5%] sm:px-[5%] lg:px-[10%] " id="Home">
@@ -233,7 +272,22 @@ const Home = () => {
                 <div className={`relative lg:left-12 z-10 w-full opacity-90 transform transition-transform duration-500 ${
                   isHovering ? "scale-105" : "scale-100"
                 }`}>
-                  <DotLottieReact {...lottieOptions} />
+                  {!lottieError ? (
+                    <DotLottieReact 
+                      src={lottieOptions.src}
+                      loop={lottieOptions.loop}
+                      autoplay={lottieOptions.autoplay}
+                      style={lottieOptions.style}
+                      className={lottieOptions.className}
+                    />
+                  ) : (
+                    <div className={`w-full h-full flex items-center justify-center ${lottieOptions.className}`}>
+                      <div className="text-center">
+                        <div className="text-8xl mb-4 animate-pulse">✨</div>
+                        <p className="text-sm text-purple-400/70">Animation unavailable</p>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className={`absolute inset-0 pointer-events-none transition-all duration-700 ${

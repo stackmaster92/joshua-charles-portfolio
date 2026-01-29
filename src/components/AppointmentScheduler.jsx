@@ -80,16 +80,16 @@ const AppointmentScheduler = () => {
     return bookedSlots.includes(slotKey);
   };
 
-  // Save a booked slot and send email notifications to both organizer and client
+  // Save a booked slot and send confirmation emails to both organizer and client
   const saveBookedSlot = async (date, time) => {
     const slotKey = getSlotKey(date, time);
     const updated = [...bookedSlots, slotKey];
     setBookedSlots(updated);
     localStorage.setItem("bookedAppointments", JSON.stringify(updated));
 
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_page3ar';
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_hordn1h';
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '99o0MgHfdJvDvUD_A';
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_page3ar";
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "template_hordn1h";
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "99o0MgHfdJvDvUD_A";
     const organizerEmail = "joshua80.charles@gmail.com";
 
     const formattedDate = date.toLocaleDateString("en-US", {
@@ -99,30 +99,61 @@ const AppointmentScheduler = () => {
       year: "numeric",
     });
 
-    // Send confirmation email to organizer (Joshua)
+    // 1) Email to organizer (Joshua)
     try {
       const organizerParams = {
-        name: 'Joshua Charles',
+        // appears as sender
+        name: "Joshua Charles",
         email: organizerEmail,
+        // recipient – EmailJS template MUST use {{to_email}} in the “To Email” field
         to_email: organizerEmail,
-        message: `New Appointment Booking Notification:\n\nClient Details:\n- Name: ${details.fullName}\n- Email: ${details.email}\n- Phone: ${details.phone || 'N/A'}\n\nAppointment Details:\n- Date: ${formattedDate}\n- Time: ${time}\n- Duration: 30 minutes\n- Timezone: ${timezoneLabel}\n\nClient Message:\n${details.message || 'No message provided'}\n\nPlease add this appointment to your calendar.`,
+        message:
+          `New Appointment Booking Notification\n\n` +
+          `Client Details:\n` +
+          `- Name: ${details.fullName}\n` +
+          `- Email: ${details.email}\n` +
+          `- Phone: ${details.phone || "N/A"}\n\n` +
+          `Appointment Details:\n` +
+          `- Date: ${formattedDate}\n` +
+          `- Time: ${time}\n` +
+          `- Duration: 30 minutes\n` +
+          `- Timezone: ${timezoneLabel}\n` +
+          `- Location: ${MEETING_LOCATION}\n\n` +
+          `Client Message:\n${details.message || "No message provided"}\n\n` +
+          `Please add this appointment to your calendar.`,
       };
+
       await emailjs.send(serviceId, templateId, organizerParams, publicKey);
     } catch (error) {
-      console.error('Failed to send email to organizer:', error);
+      console.error("Failed to send appointment email to organizer:", error);
     }
 
-    // Send confirmation email to client
+    // 2) Email to client
     try {
       const clientParams = {
-        name: details.fullName,
+        name: details.fullName || "Client",
         email: details.email,
         to_email: details.email,
-        message: `Appointment Confirmation\n\nDear ${details.fullName},\n\nYour appointment has been successfully scheduled!\n\nAppointment Details:\n- Date: ${formattedDate}\n- Time: ${time}\n- Duration: 30 minutes\n- Timezone: ${timezoneLabel}\n- Location: ${MEETING_LOCATION}\n\nOrganizer: Joshua Charles\nEmail: ${organizerEmail}\n\nPlease add this appointment to your calendar using the button provided.\n\nWe look forward to meeting with you!\n\nBest regards,\nJoshua Charles`,
+        message:
+          `Appointment Confirmation\n\n` +
+          `Dear ${details.fullName || "Client"},\n\n` +
+          `Your appointment has been successfully scheduled.\n\n` +
+          `Appointment Details:\n` +
+          `- Date: ${formattedDate}\n` +
+          `- Time: ${time}\n` +
+          `- Duration: 30 minutes\n` +
+          `- Timezone: ${timezoneLabel}\n` +
+          `- Location: ${MEETING_LOCATION}\n\n` +
+          `Organizer:\n` +
+          `- Name: Joshua Charles\n` +
+          `- Email: ${organizerEmail}\n\n` +
+          `If you have any questions, feel free to reply to this email.\n\n` +
+          `Best regards,\nJoshua Charles`,
       };
+
       await emailjs.send(serviceId, templateId, clientParams, publicKey);
     } catch (error) {
-      console.error('Failed to send email to client:', error);
+      console.error("Failed to send appointment confirmation email to client:", error);
     }
   };
 
